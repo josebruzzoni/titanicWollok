@@ -12,7 +12,7 @@ object pelicula
 
 		game.addVisual(titanic)
 		game.addVisual(iceberg)
-	
+		
 		game.start()
 	}
 }
@@ -27,8 +27,10 @@ object titanic{
 	method hundite(){
 		imagen = "titanic-hundiendo.jpg"
 	}
+	method flotas(){
+		return iceberg.obtenerDistancia()>0
+	}
 }	
-
 
 object iceberg{
 	var distancia = 2
@@ -39,28 +41,46 @@ object iceberg{
 	method acercarse(){
 		distancia = distancia - 1
 	}
+	method alejarse(){
+		distancia = distancia + 1
+	}
 	
-	method chocar(){
-		titanic.hundite()
+	method chocar(algo){
+		algo.hundite()
 		game.addVisual(puerta)
-
+	}
+	method obtenerDistancia(){
+		return distancia
 	}
 }
 
 object puerta {
 	var ocupante = jack
 	var position = game.at(2,5)
-
+	var imagen = ocupante.image()
 	method position() { return position}
-	method image() = ocupante.image()
+	method image() {return imagen}
 	
 	method salva() {
-		ocupante.sobrevivi()
+		return ocupante.sobrevivi()
 	}
 	method ocupante() { return ocupante}
 	
 	method serOcupadaPor(alguien){
 		ocupante = alguien
+	}
+	method hundite(){
+		imagen = "door.png"
+	}
+}
+
+object capitan {
+	method image() = "suelo.png"
+	method nosHundimos(){
+		return titanic.flotas().negate()
+	}
+	method sobrevivi(){
+		return "bien ahi"
 	}
 }
 
